@@ -24,13 +24,13 @@ export function SearchDialog() {
 
   return (
     <>
-      <Button variant="outline" size="sm" className="hidden h-9 w-56 justify-start gap-2 text-muted-foreground md:inline-flex" onClick={() => setOpen(true)} aria-label="Search the library">
+      <Button variant="outline" size="sm" className="hidden w-44 justify-start gap-2 font-normal text-muted-foreground md:inline-flex" onClick={() => setOpen(true)} aria-label="Search the library">
         <Search />
         <span className="flex-1 text-left">Search…</span>
-        <kbd className="rounded border bg-muted px-1.5 py-0.5 font-sans text-[0.6875rem]">Ctrl K</kbd>
+        <kbd className="rounded-sm border bg-tint px-1.5 py-0.5 font-sans text-[0.6875rem] font-medium">Ctrl K</kbd>
       </Button>
       <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setOpen(true)} aria-label="Search the library">
-        <Search />
+        <Search className="size-[1.125rem]" strokeWidth={1.8} />
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="gap-0" showClose={false} aria-describedby="search-help">

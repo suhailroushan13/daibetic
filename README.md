@@ -1,4 +1,4 @@
-# Glucose Atlas
+# The Diabetes Guide
 
 Diabetes explained in simple words, with a real-life example for every idea. Built with Next.js (App Router), Tailwind CSS v4, shadcn/ui-style components, Radix and Motion.
 

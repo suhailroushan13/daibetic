@@ -1,29 +1,26 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { evidenceDescriptions, evidenceLevels, evidenceSimple } from '@/data/evidence';
-import { Reveal } from '@/components/site/reveal';
+import { PageHeader } from '@/components/site/section-heading';
 import { EvidenceBadge } from '@/components/site/evidence-badge';
 
 export const metadata: Metadata = {
   title: 'About and how we check facts',
-  description: 'How Glucose Atlas picks sources, labels how well proven a claim is, and is honest about what it cannot do.',
+  description: 'How The Diabetes Guide picks sources, labels how well proven a claim is, and is honest about what it cannot do.',
   alternates: { canonical: '/about' },
 };
 
-const H = ({ children }: { children: React.ReactNode }) => <h2 className="mt-12 mb-3 font-serif text-2xl font-semibold sm:text-3xl">{children}</h2>;
+const H = ({ children }: { children: React.ReactNode }) => <h2 className="mt-12 mb-3 text-h3 text-foreground">{children}</h2>;
 
 export default function AboutPage() {
   return (
-    <div className="container-page py-12">
-      <Reveal>
-        <p className="text-xs font-semibold tracking-wider text-brand-foreground uppercase">How we work</p>
-        <h1 className="mt-2 max-w-3xl font-serif text-4xl font-semibold tracking-tight text-balance sm:text-6xl">Clear words. Visible proof. Honest limits.</h1>
-      </Reveal>
+    <div className="container-page py-12 sm:py-16">
+      <PageHeader eyebrow="How we work" title="Clear words. Visible proof. Honest limits." />
       <div className="article-prose mt-8 max-w-3xl">
-        <p>Glucose Atlas is an independent learning project. It explains how the body handles sugar, how diabetes develops, how it is found and treated, and what scientists are trying next. It is <strong>not</strong> a healthcare provider.</p>
+        <p>The Diabetes Guide is an independent learning project. It explains how the body handles sugar, how diabetes develops, how it is found and treated, and what scientists are trying next. It is <strong>not</strong> a healthcare provider.</p>
 
-        <div className="my-8 rounded-2xl border border-warning-border bg-warning-surface p-5 text-warning-foreground">
-          <p className="!m-0"><strong>Please read this.</strong> Use this site to prepare good questions for a doctor or nurse. Do not use it to diagnose yourself, work out a medicine dose or stop a treatment. If someone may be having an emergency, get urgent local medical help.</p>
+        <div className="my-8 rounded-lg border border-warning/40 bg-warning-subtle p-5 text-foreground">
+          <p className="m-0"><strong>Please read this.</strong> Use this site to prepare good questions for a doctor or nurse. Do not use it to diagnose yourself, work out a medicine dose or stop a treatment. If someone may be having an emergency, get urgent local medical help.</p>
         </div>
 
         <H>Every idea has two layers</H>
@@ -38,14 +35,12 @@ export default function AboutPage() {
 
         <H>“How well proven” labels</H>
         <p>Each article carries a label. Here is what each one means, in two ways:</p>
-        <ul className="!list-none !pl-0">
+        <ul className="my-5 grid gap-3">
           {evidenceLevels.map((level) => (
-            <li key={level} className="!pl-0">
-              <div className="rounded-2xl border bg-card p-4">
-                <EvidenceBadge level={level} />
-                <p className="!mt-2 !mb-1 text-[0.95rem]"><strong>Simple:</strong> {evidenceSimple[level].words} <em>{evidenceSimple[level].example}</em></p>
-                <p className="!m-0 text-sm text-muted-foreground"><strong>Precise:</strong> {evidenceDescriptions[level]}</p>
-              </div>
+            <li key={level} className="rounded-lg border bg-card p-4">
+              <EvidenceBadge level={level} />
+              <p className="mt-2.5 mb-1 text-[0.9375rem]"><strong>Simple:</strong> {evidenceSimple[level].words} <em>{evidenceSimple[level].example}</em></p>
+              <p className="text-sm text-muted-foreground"><strong>Precise:</strong> {evidenceDescriptions[level]}</p>
             </li>
           ))}
         </ul>
@@ -72,7 +67,7 @@ export default function AboutPage() {
         <H>Corrections</H>
         <p>Content lives in version-controlled files. A change needs a source check and passes automatic tests. Old sources are flagged for review, and older classic studies are kept with context. Hosting this site does not automatically update its medical content, and guidelines differ from country to country.</p>
 
-        <p className="mt-10"><Link href="/sources">Look at the sources →</Link> &nbsp; <Link href="/report">Read the 18-part report →</Link></p>
+        <p className="mt-10 flex flex-wrap gap-x-6 gap-y-2"><Link href="/sources" className="font-semibold text-brand hover:underline">Look at the sources →</Link><Link href="/report" className="font-semibold text-brand hover:underline">Read the 18-part report →</Link></p>
       </div>
     </div>
   );

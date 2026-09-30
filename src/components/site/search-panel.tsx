@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { BookOpen, CornerDownLeft, Search } from 'lucide-react';
+import { BookOpen, CornerDownLeft, FileText, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { highlight, loadSearchIndex, searchItems, type SearchItem } from '@/lib/search';
@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 const suggestions = ['What is insulin?', 'Type 1 vs Type 2', 'HbA1c', 'Remission', 'Symptoms', 'Prediabetes'];
 
 function Marked({ text, query }: { text: string; query: string }) {
-  return <>{highlight(text, query).map((p, i) => (p.hit ? <mark key={i} className="rounded bg-sun-soft px-0.5 text-sun-foreground">{p.text}</mark> : <span key={i}>{p.text}</span>))}</>;
+  return <>{highlight(text, query).map((p, i) => (p.hit ? <mark key={i} className="rounded-sm bg-secondary-subtle px-0.5 text-foreground">{p.text}</mark> : <span key={i}>{p.text}</span>))}</>;
 }
 
 export function SearchPanel({ autoFocus = false, compact = false, onNavigate, inputId = 'full-query', initialQuery = '' }: { autoFocus?: boolean; compact?: boolean; onNavigate?: () => void; inputId?: string; initialQuery?: string }) {
@@ -41,7 +41,7 @@ export function SearchPanel({ autoFocus = false, compact = false, onNavigate, in
 
   return (
     <div onKeyDown={onKeyDown} className="flex flex-col">
-      <div className={cn('relative', compact ? 'border-b' : '')}>
+      <div className={cn('relative', compact && 'border-b')}>
         <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <label htmlFor={inputId} className="sr-only">Search terms</label>
         <Input
@@ -52,18 +52,18 @@ export function SearchPanel({ autoFocus = false, compact = false, onNavigate, in
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Try “insulin”, “symptoms” or “Type 1”…"
-          className={cn('pl-11', compact ? 'h-14 rounded-none rounded-t-2xl border-0 text-base shadow-none focus-visible:ring-0' : 'h-14 rounded-xl text-base')}
+          className={cn('h-12 pl-11 md:text-base', compact && 'h-14 rounded-none rounded-t-lg border-0 focus-visible:outline-offset-[-2px]')}
         />
       </div>
 
       <div ref={listRef} className={cn('overflow-y-auto', compact ? 'max-h-[55vh] p-2' : 'mt-4')} aria-live="polite">
-        {failed && <p className="p-4 text-sm text-muted-foreground">Search is not available right now. You can <Link href="/research" className="underline" onClick={onNavigate}>browse all articles</Link> instead.</p>}
+        {failed && <p className="p-4 text-sm text-muted-foreground">Search is not available right now. You can <Link href="/research" className="text-brand underline" onClick={onNavigate}>browse all articles</Link> instead.</p>}
         {!failed && !q && (
-          <div className="p-4">
-            <p className="text-sm text-muted-foreground">Search {items ? items.length : '…'} articles and glossary words. Not sure where to start? Try one of these:</p>
+          <div className={cn(compact ? 'p-3' : 'py-2')}>
+            <p className="text-sm text-muted-foreground">Search <span className="num">{items ? items.length : '…'}</span> articles and glossary words. Not sure where to start? Try one of these:</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {suggestions.map((s) => (
-                <button key={s} type="button" onClick={() => setQuery(s.replace('?', ''))} className="rounded-full border bg-card px-3 py-1.5 text-sm transition hover:border-brand hover:bg-brand-soft">
+                <button key={s} type="button" onClick={() => setQuery(s.replace('?', ''))} className="h-8 rounded-full border bg-background px-3.5 text-sm transition-colors hover:bg-muted">
                   {s}
                 </button>
               ))}
@@ -75,20 +75,20 @@ export function SearchPanel({ autoFocus = false, compact = false, onNavigate, in
         )}
         {results.length > 0 && (
           <>
-            <p className="px-3 pt-1 pb-2 text-xs text-muted-foreground" role="status">{results.length} {results.length === 1 ? 'result' : 'results'}, best match first</p>
-            <ul className="flex flex-col gap-1">
+            <p className="px-3 pt-1 pb-2 text-xs text-muted-foreground" role="status"><span className="num">{results.length}</span> {results.length === 1 ? 'result' : 'results'}, best match first</p>
+            <ul className={cn('flex flex-col', !compact && 'divide-y rounded-lg border')}>
               {results.map((r) => (
                 <li key={r.url + r.title}>
                   <Link
                     href={r.url}
                     onClick={onNavigate}
-                    className="search-result group flex flex-col gap-1 rounded-xl px-3 py-2.5 transition-colors outline-none hover:bg-accent focus-visible:bg-accent focus-visible:ring-2 focus-visible:ring-ring"
+                    className={cn('search-result group flex flex-col gap-1 px-3 py-2.5 transition-colors hover:bg-tint focus-visible:bg-tint focus-visible:outline-offset-[-2px]', compact && 'rounded-md')}
                   >
                     <span className="flex items-center gap-2">
-                      {r.kind === 'Glossary' ? <BookOpen className="size-4 text-sun-foreground" /> : <Search className="size-4 text-brand" />}
+                      {r.kind === 'Glossary' ? <BookOpen className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" /> : <FileText className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />}
                       <strong className="text-sm font-semibold"><Marked text={r.title} query={q} /></strong>
-                      <Badge variant="muted" className="ml-auto">{r.kind === 'Glossary' ? 'Word' : r.category}</Badge>
-                      <CornerDownLeft className="hidden size-3.5 text-muted-foreground group-focus-visible:block" />
+                      <Badge variant="outline" className="ml-auto">{r.kind === 'Glossary' ? 'Word' : r.category}</Badge>
+                      <CornerDownLeft className="hidden size-3.5 text-muted-foreground group-focus-visible:block" aria-hidden="true" />
                     </span>
                     <span className="line-clamp-2 pl-6 text-[0.8125rem] text-muted-foreground"><Marked text={r.description} query={q} /></span>
                   </Link>

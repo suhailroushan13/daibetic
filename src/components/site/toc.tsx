@@ -23,16 +23,16 @@ export function Toc({ headings }: { headings: (Heading | { text: string; id: str
 
   return (
     <nav aria-label="On this page" className="text-sm">
-      <p className="mb-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">On this page</p>
-      <ul className="space-y-1 border-l">
+      <p className="mb-3 font-semibold">On this page</p>
+      <ul className="space-y-0.5 border-l">
         {headings.map((h) => (
           <li key={h.id}>
             <a
               href={`#${h.id}`}
               aria-current={active === h.id ? 'location' : undefined}
               className={cn(
-                '-ml-px block border-l-2 border-transparent py-1 pr-2 leading-snug text-muted-foreground transition-colors hover:text-foreground aria-[current=location]:border-brand aria-[current=location]:font-medium aria-[current=location]:text-brand-foreground',
-                h.depth === 3 ? 'pl-7 text-[0.8125rem]' : 'pl-4',
+                '-ml-px block border-l-2 border-transparent py-1 pr-2 leading-snug text-muted-foreground transition-colors hover:text-foreground aria-[current=location]:border-brand aria-[current=location]:text-brand',
+                h.depth === 3 ? 'pl-6 text-[0.8125rem]' : 'pl-3.5',
               )}
             >
               {h.text}

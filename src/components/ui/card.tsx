@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Card({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="card" className={cn('flex flex-col gap-4 rounded-2xl border bg-card py-5 text-card-foreground shadow-xs', className)} {...props} />;
+  return <div data-slot="card" className={cn('flex flex-col gap-4 rounded-lg border bg-card py-5 text-card-foreground', className)} {...props} />;
 }
 export function CardHeader({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="card-header" className={cn('grid auto-rows-min items-start gap-1.5 px-5', className)} {...props} />;
@@ -17,5 +17,5 @@ export function CardContent({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="card-content" className={cn('px-5', className)} {...props} />;
 }
 export function CardFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="card-footer" className={cn('flex items-center px-5', className)} {...props} />;
+  return <div data-slot="card-footer" className={cn('-mb-5 flex items-center rounded-b-lg border-t bg-muted/50 px-5 py-4', className)} {...props} />;
 }

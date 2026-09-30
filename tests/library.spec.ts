@@ -81,8 +81,9 @@ test('theme persists and mobile navigation works', async ({ page, isMobile }) =>
   await page.goto('/');
   const before = await page.locator('html').getAttribute('data-theme');
   await page.locator('#theme-toggle').click();
+  // The toggle runs inside a view transition, so the attribute changes a frame later.
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme', before!);
   const after = await page.locator('html').getAttribute('data-theme');
-  expect(after).not.toBe(before);
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', after!);
   if (isMobile) {

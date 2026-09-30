@@ -18,14 +18,14 @@ export function SheetContent({ className, children, ...props }: ComponentProps<t
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(
-          'fixed inset-y-0 right-0 z-50 flex h-full w-[min(22rem,88vw)] flex-col gap-4 border-l bg-background shadow-2xl transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=closed]:slide-out-to-right data-[state=open]:animate-in data-[state=open]:duration-300 data-[state=open]:slide-in-from-right',
+          'fixed inset-y-0 right-0 z-50 flex h-full w-[min(22rem,88vw)] flex-col gap-4 border-l bg-background shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=closed]:slide-out-to-right data-[state=open]:animate-in data-[state=open]:duration-300 data-[state=open]:slide-in-from-right',
           className,
         )}
         {...props}
       >
         {children}
-        <SheetPrimitive.Close className="absolute top-4 right-4 rounded-md p-1.5 text-muted-foreground transition hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none">
-          <X className="size-4" />
+        <SheetPrimitive.Close className="absolute top-3 right-3 rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground">
+          <X className="size-[1.125rem]" strokeWidth={1.8} />
           <span className="sr-only">Close menu</span>
         </SheetPrimitive.Close>
       </SheetPrimitive.Content>
