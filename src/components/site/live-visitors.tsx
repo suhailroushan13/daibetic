@@ -5,9 +5,10 @@ import { NumberTicker } from '@/components/site/number-ticker';
 import { cn } from '@/lib/utils';
 
 /**
- * One shared visitor count for every place that shows it (top bar and footer). The first
- * subscriber records this browser's visit, then the count refreshes every minute while the
- * tab is visible. The ID is a random UUID kept in localStorage; nothing personal is sent.
+ * One shared visitor count for every place that shows it (header, phone strip and footer).
+ * The first subscriber records this browser's visit, then the count refreshes every minute
+ * while the tab is visible. The ID is a random UUID kept in localStorage; nothing personal
+ * is sent.
  */
 type Snapshot = { visitors: number | null; failed: boolean };
 
@@ -97,25 +98,23 @@ function Stat({ visitors }: { visitors: number | null }) {
   );
 }
 
-/** Slim strip above the header. It keeps its height while loading so the page does not jump. */
-export function LiveStatsBar() {
+/** Bare stat, used in the phone strip above the header. */
+export function LiveVisitors({ className }: { className?: string }) {
   const { visitors, failed } = useVisitors();
   if (failed) return null;
   return (
-    <div className="border-b bg-tint" id="live-stats">
-      <p className="container-page flex h-8 items-center justify-center gap-2 text-xs text-muted-foreground">
-        <Stat visitors={visitors} />
-      </p>
-    </div>
+    <p className={cn('inline-flex items-center gap-2 text-xs text-muted-foreground', className)}>
+      <Stat visitors={visitors} />
+    </p>
   );
 }
 
-/** Pill version for the footer. */
+/** Pill version, beside the search bar and in the footer. */
 export function LiveVisitorsPill({ className }: { className?: string }) {
   const { visitors, failed } = useVisitors();
   if (failed) return null;
   return (
-    <p className={cn('inline-flex h-7 items-center gap-2 rounded-full border bg-background px-3 text-xs text-muted-foreground', className)}>
+    <p className={cn('inline-flex h-7 shrink-0 items-center gap-2 rounded-full border bg-background px-3 text-xs whitespace-nowrap text-muted-foreground', className)}>
       <Stat visitors={visitors} />
     </p>
   );

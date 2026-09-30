@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/site/logo';
 import { LiveVisitorsPill } from '@/components/site/live-visitors';
+import { OpenSourceLink } from '@/components/site/open-source-link';
 import { categories } from '@/data/navigation';
 
 const explore = [
@@ -48,7 +49,10 @@ export function SiteFooter() {
           <p className="text-xs text-muted-foreground">
             AI-assisted educational research, source-checked on 30 September 2026. Not independently reviewed by a medical professional.
           </p>
-          <LiveVisitorsPill className="shrink-0 self-start sm:self-auto" />
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <LiveVisitorsPill />
+            <OpenSourceLink />
+          </div>
         </div>
       </div>
     </footer>

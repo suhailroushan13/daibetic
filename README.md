@@ -28,5 +28,5 @@ npx playwright install chromium && npm test
 ## Analytics and search
 
 - **Vercel Web Analytics** – `<Analytics />` in the root layout; view it in the Vercel project's Analytics tab.
-- **Live visitor count** – `/api/visitors` counts unique browsers in Upstash Redis (`KV_REST_API_URL`, `KV_REST_API_TOKEN`). It shows at the top of every page and in the footer, and hides itself when Redis is not configured.
+- **Live visitor count** – `/api/visitors` counts unique browsers in Upstash Redis (`KV_REST_API_URL`, `KV_REST_API_TOKEN`). It shows beside the search bar (in a strip above the header on phones) and in the footer, and hides itself when Redis is not configured.
 - **Google Search Console** – set `GOOGLE_SITE_VERIFICATION` to the HTML-tag token, or verify the domain with a DNS TXT record. The sitemap is at `/sitemap.xml` and is listed in `/robots.txt`.
