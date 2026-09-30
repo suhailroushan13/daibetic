@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Droplets, Search, Sparkles, Utensils, Scale, Mail } from 'lucide-react';
-import { categories, toneClasses } from '@/data/navigation';
+import { ArrowRight, Check, Search } from 'lucide-react';
+import { categories } from '@/data/navigation';
 import { guideModules, guideSteps } from '@/data/guide';
 import { sourceList } from '@/data/sources';
 import { formatDate, getArticles, getArticle, toSummary } from '@/lib/content';
 import { GlucoseJourney } from '@/components/diagrams/glucose-journey';
 import { ArticleCard } from '@/components/site/article-card';
+import { Example } from '@/components/site/example';
 import { Icon } from '@/components/site/icon';
-import { Reveal, Stagger, StaggerItem } from '@/components/site/reveal';
+import { NumberTicker } from '@/components/site/number-ticker';
 import { SectionHeading } from '@/components/site/section-heading';
 import { ThreeLevels } from '@/components/site/three-levels';
 import { Button } from '@/components/ui/button';
@@ -16,15 +17,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Glucose Atlas: diabetes explained in simple words' },
+  title: { absolute: 'The Diabetes Guide: diabetes explained in simple words' },
   description: 'Learn how diabetes works in simple words, with a real-life example for every idea. A step-by-step guide anyone can follow, from children to grandparents.',
   alternates: { canonical: '/' },
 };
 
 const threeSteps = [
-  { icon: Utensils, title: 'Food becomes sugar', text: 'When you eat, your body breaks food into a tiny sugar called glucose. It travels in your blood.', example: 'A slice of bread turns into tiny sugar pieces, like a toy taken apart into blocks.' },
-  { icon: Mail, title: 'Insulin carries a message', text: 'Your pancreas sends insulin, a messenger that says “use this sugar for energy or store it”.', example: 'Insulin is the teacher’s bell. When it rings, the class knows what to do.' },
-  { icon: Scale, title: 'The body stays balanced', text: 'In diabetes, insulin is missing or ignored, so sugar stays too high for too long.', example: 'If the bell breaks, or nobody listens, the classroom becomes messy.' },
+  { title: 'Food becomes sugar', text: 'When you eat, your body breaks food into a tiny sugar called glucose. It travels in your blood.', example: 'A slice of bread turns into tiny sugar pieces, like a toy taken apart into blocks.' },
+  { title: 'Insulin carries a message', text: 'Your pancreas sends insulin, a messenger that says “use this sugar for energy or store it”.', example: 'Insulin is the teacher’s bell. When it rings, the class knows what to do.' },
+  { title: 'The body stays balanced', text: 'In diabetes, insulin is missing or ignored, so sugar stays too high for too long.', example: 'If the bell breaks, or nobody listens, the classroom becomes messy.' },
 ];
 
 const faqs = [
@@ -34,162 +35,160 @@ const faqs = [
   { q: 'Can I use this site to decide about my medicine?', a: 'No. It teaches ideas, but it cannot diagnose you or change your treatment. Never stop insulin or any medicine without asking your doctor or nurse.', ex: 'A map shows the roads, but your doctor is the guide who knows your journey.' },
 ];
 
+function Section({ id, children, className }: { id: string; children: React.ReactNode; className?: string }) {
+  return (
+    <section aria-labelledby={id} className="border-t">
+      <div className={cn('container-page py-16 sm:py-20', className)}>{children}</div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   const articles = getArticles();
   const featured = ['fundamentals/mental-model', 'type-2/remission', 'future/state-of-research'].map((s) => getArticle(s)).filter((a) => !!a);
   const lastChecked = new Date(Math.max(...articles.map((a) => new Date(a.reviewedDate).getTime()))).toISOString();
+  const stats: [number, string][] = [[articles.length, 'short articles'], [sourceList.length, 'real sources'], [categories.length, 'topics'], [guideSteps.length, 'guide steps']];
 
   return (
     <>
       {/* Hero */}
-      <section className="bg-hero-glow relative overflow-hidden border-b" aria-labelledby="hero-title">
-        <div className="bg-dots pointer-events-none absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" aria-hidden="true" />
-        <div className="container-page relative grid items-center gap-10 py-14 lg:grid-cols-[1.05fr_1fr] lg:py-20">
-          <Reveal>
-            <p className="inline-flex items-center gap-2 rounded-full border bg-background/80 px-3.5 py-1.5 text-sm font-medium shadow-xs backdrop-blur">
-              <Sparkles className="size-4 text-sun" aria-hidden="true" /> Made simple, for everyone
-            </p>
-            <h1 id="hero-title" className="mt-5 font-serif text-5xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-6xl">
-              Diabetes, explained so <span className="text-gradient">anyone</span> can understand it.
-            </h1>
-            <p className="mt-5 max-w-xl text-xl leading-relaxed text-muted-foreground">
-              Every idea comes in simple words first, with a real-life example. Children can follow it. Parents can trust it. The science words are there when you want them.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg"><Link href="/learn">Start the step-by-step guide <ArrowRight /></Link></Button>
-              <Button asChild size="lg" variant="outline"><Link href="/search"><Search /> Search a question</Link></Button>
-            </div>
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              <li>✓ Simple words</li><li>✓ An example for every step</li><li>✓ Real sources, always shown</li>
-            </ul>
-          </Reveal>
-          <Reveal delay={0.12} y={26}><GlucoseJourney compact /></Reveal>
+      <section aria-labelledby="hero-title">
+        <div className="container-page pt-14 pb-12 text-center sm:pt-20">
+          <p className="inline-flex h-8 items-center gap-2.5 rounded-full border bg-background px-3.5 text-xs text-muted-foreground shadow-xs">
+            <span className="size-1.5 rounded-full bg-success" aria-hidden="true" />
+            <span>Sources checked <span className="font-medium text-foreground">{formatDate(lastChecked)}</span></span>
+            <span className="h-3.5 w-px bg-border" aria-hidden="true" />
+            <span><span className="num font-medium text-foreground">{articles.length}</span> articles</span>
+          </p>
+          <h1 id="hero-title" className="mx-auto mt-6 max-w-3xl text-4xl leading-[1.08] font-bold tracking-[-0.03em] text-balance lg:text-5xl">
+            Diabetes, explained so <span className="text-brand">anyone</span> can understand it.
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-pretty text-muted-foreground">
+            Every idea comes in simple words first, with a real-life example. Children can follow it. Parents can trust it. The science words are there when you want them.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg"><Link href="/learn">Start the step-by-step guide <ArrowRight /></Link></Button>
+            <Button asChild size="lg" variant="outline"><Link href="/search"><Search /> Search a question</Link></Button>
+          </div>
+          <ul className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            {['Simple words', 'An example for every step', 'Real sources, always shown'].map((t) => (
+              <li key={t} className="inline-flex items-center gap-1.5"><Check className="size-4 text-success" aria-hidden="true" />{t}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="container-page pb-16 sm:pb-20">
+          <GlucoseJourney className="my-0 rounded-2xl" />
         </div>
       </section>
 
       {/* Stats */}
-      <section aria-label="Library at a glance" className="container-page -mt-7 relative z-10">
-        <Stagger className="grid grid-cols-2 gap-3 rounded-3xl border bg-card p-4 shadow-lg sm:grid-cols-4 sm:p-5">
-          {[[String(articles.length), 'short articles'], [String(sourceList.length), 'real sources'], [String(categories.length), 'topics'], [formatDate(lastChecked), 'last source check']].map(([n, l]) => (
-            <StaggerItem key={l} className="text-center">
-              <p className="font-serif text-3xl font-semibold text-brand-foreground tabular-nums sm:text-4xl">{n}</p>
-              <p className="text-sm text-muted-foreground">{l}</p>
-            </StaggerItem>
+      <section aria-label="Library at a glance" className="container-page pb-16 sm:pb-20">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border bg-border sm:grid-cols-4">
+          {stats.map(([n, label]) => (
+            <div key={label} className="flex flex-col-reverse gap-1 bg-background px-5 py-5">
+              <dt className="text-sm text-muted-foreground">{label}</dt>
+              <dd className="text-3xl font-semibold tracking-tight"><NumberTicker value={n} /></dd>
+            </div>
           ))}
-        </Stagger>
+        </dl>
       </section>
 
       {/* The idea in 3 steps */}
-      <section className="container-page mt-24" aria-labelledby="three-title">
-        <SectionHeading id="three-title" eyebrow="The whole idea" title="Here is diabetes in three easy steps.">Read these three cards and you already understand the heart of it.</SectionHeading>
-        <Stagger className="mt-10 grid gap-5 md:grid-cols-3">
+      <Section id="three-title">
+        <SectionHeading id="three-title" eyebrow="The whole idea" title="Here is diabetes in three easy steps.">Read these three and you already understand the heart of it.</SectionHeading>
+        <ol className="mt-10 grid gap-3 md:grid-cols-3">
           {threeSteps.map((s, i) => (
-            <StaggerItem key={s.title}>
-              <div className="relative flex h-full flex-col rounded-3xl border bg-card p-6 transition-shadow hover:shadow-lg">
-                <span className="absolute top-5 right-6 font-serif text-5xl font-semibold text-muted-foreground/25" aria-hidden="true">{i + 1}</span>
-                <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-brand-soft text-brand"><s.icon className="size-6" aria-hidden="true" /></span>
-                <h3 className="mt-4 font-serif text-2xl font-semibold">{s.title}</h3>
-                <p className="mt-2 leading-relaxed text-muted-foreground">{s.text}</p>
-                <div className="mt-auto pt-5"><p className="rounded-2xl bg-sun-soft p-3.5 text-sm leading-relaxed text-sun-foreground"><strong>For example: </strong>{s.example}</p></div>
-              </div>
-            </StaggerItem>
+            <li key={s.title} className="flex flex-col rounded-lg border bg-card p-5">
+              <p className="label text-muted-foreground">Step <span className="num">{i + 1}</span></p>
+              <h3 className="mt-2 text-h4">{s.title}</h3>
+              <p className="mt-2 leading-relaxed text-muted-foreground">{s.text}</p>
+              <div className="mt-auto pt-5"><Example className="text-sm">{s.example}</Example></div>
+            </li>
           ))}
-        </Stagger>
-      </section>
+        </ol>
+      </Section>
 
       {/* Three levels */}
-      <section className="container-page mt-24" aria-labelledby="levels-title">
-        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.4fr]">
-          <SectionHeading id="levels-title" eyebrow="One idea, three ways" title="Pick the words that fit you.">Here is what insulin does, told three ways. Every article on this site works like this: easy first, science later.</SectionHeading>
-          <Reveal><ThreeLevels /></Reveal>
-        </div>
-      </section>
+      <Section id="levels-title" className="grid items-start gap-10 lg:grid-cols-[1fr_1.4fr]">
+        <SectionHeading id="levels-title" eyebrow="One idea, three ways" title="Pick the words that fit you.">Here is what insulin does, told three ways. Every article on this site works like this: easy first, science later.</SectionHeading>
+        <ThreeLevels />
+      </Section>
 
       {/* Guide */}
-      <section className="mt-24 border-y bg-muted/40 py-20" aria-labelledby="guide-title">
-        <div className="container-page">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <SectionHeading id="guide-title" eyebrow="A clear path" title="New here? Follow the steps.">{guideSteps.length} short steps in {guideModules.length} chapters. Each one takes a few minutes, and the site remembers where you stopped.</SectionHeading>
-            <Button asChild variant="soft"><Link href="/learn">See all steps <ArrowRight /></Link></Button>
-          </div>
-          <Stagger className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-5" stagger={0.08}>
-            {guideModules.map((m, i) => (
-              <StaggerItem key={m.id}>
-                <Link href={`/${m.steps[0].slug}`} className="group flex h-full flex-col rounded-2xl border bg-card p-5 transition-all hover:-translate-y-1 hover:border-brand/50 hover:shadow-md">
-                  <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand text-primary-foreground"><Icon name={m.icon} className="size-5" /></span>
-                  <p className="mt-4 text-xs font-semibold tracking-wider text-muted-foreground uppercase">Chapter {i + 1}</p>
-                  <h3 className="mt-1 font-serif text-lg leading-snug font-semibold">{m.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{m.steps.length} steps</p>
-                  <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-brand-foreground">Start <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
-                </Link>
-              </StaggerItem>
-            ))}
-          </Stagger>
+      <Section id="guide-title">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <SectionHeading id="guide-title" eyebrow="A clear path" title="New here? Follow the steps.">{guideSteps.length} short steps in {guideModules.length} chapters. Each one takes a few minutes, and the site remembers where you stopped.</SectionHeading>
+          <Button asChild variant="outline"><Link href="/learn">See all steps <ArrowRight /></Link></Button>
         </div>
-      </section>
+        <ol className="mt-10 divide-y overflow-hidden rounded-lg border bg-card">
+          {guideModules.map((m, i) => (
+            <li key={m.id}>
+              <Link href={`/${m.steps[0].slug}`} className="group flex items-center gap-4 px-4 py-4 transition-colors hover:bg-tint sm:px-5">
+                <span className="num w-6 shrink-0 text-sm text-muted-foreground">{String(i + 1).padStart(2, '0')}</span>
+                <span className="min-w-0 flex-1 font-semibold">{m.title}</span>
+                <span className="hidden text-sm text-muted-foreground sm:inline"><span className="num">{m.steps.length}</span> steps</span>
+                <ArrowRight className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" aria-hidden="true" />
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
       {/* Topics */}
-      <section className="container-page mt-24" aria-labelledby="topics-title">
+      <Section id="topics-title">
         <SectionHeading id="topics-title" eyebrow="Follow your curiosity" title="Or pick a topic.">Each topic is a small shelf of articles. Choose the one you are wondering about.</SectionHeading>
-        <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.05}>
+        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((c) => {
             const count = articles.filter((a) => a.category === c.key).length;
             return (
-              <StaggerItem key={c.key}>
-                <Link href={`/${c.key}`} className="group flex h-full gap-4 rounded-2xl border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
-                  <span className={cn('inline-flex size-12 shrink-0 items-center justify-center rounded-xl', toneClasses[c.tone].icon)}><Icon name={c.icon} className="size-6" /></span>
+              <li key={c.key}>
+                <Link href={`/${c.key}`} className="flex h-full gap-3.5 rounded-lg border bg-card p-4 transition-colors hover:border-rule hover:bg-tint">
+                  <Icon name={c.icon} className="mt-0.5 size-[1.125rem] shrink-0 text-muted-foreground" />
                   <span className="min-w-0">
-                    <span className="flex items-center gap-2"><span className="font-semibold">{c.label}</span><span className="text-xs text-muted-foreground">{count}</span></span>
+                    <span className="flex items-baseline justify-between gap-2"><span className="font-semibold">{c.label}</span><span className="num text-xs text-muted-foreground">{count}</span></span>
                     <span className="mt-1 block text-sm leading-snug text-muted-foreground">{c.kid}</span>
                   </span>
                 </Link>
-              </StaggerItem>
+              </li>
             );
           })}
-        </Stagger>
-      </section>
+        </ul>
+      </Section>
 
       {/* Featured */}
-      <section className="container-page mt-24" aria-labelledby="featured-title">
+      <Section id="featured-title">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading id="featured-title" eyebrow="Good places to start" title="Popular reads." />
-          <Button asChild variant="ghost"><Link href="/research">All articles <ArrowRight /></Link></Button>
+          <Button asChild variant="ghost" className="-mr-3"><Link href="/research">All articles <ArrowRight /></Link></Button>
         </div>
-        <Stagger className="mt-8 grid gap-5 md:grid-cols-3">
-          {featured.map((a) => <StaggerItem key={a.slug}><ArticleCard article={toSummary(a)} /></StaggerItem>)}
-        </Stagger>
-      </section>
+        <div className="mt-8 grid gap-3 md:grid-cols-3">
+          {featured.map((a) => <ArticleCard key={a.slug} article={toSummary(a)} />)}
+        </div>
+      </Section>
 
       {/* FAQ */}
-      <section className="container-page mt-24" aria-labelledby="faq-title">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr]">
-          <SectionHeading id="faq-title" eyebrow="Quick answers" title="Questions people often ask." />
-          <Reveal>
-            <Accordion type="single" collapsible defaultValue="q0" className="rounded-3xl border bg-card px-5">
-              {faqs.map((f, i) => (
-                <AccordionItem key={f.q} value={`q${i}`}>
-                  <AccordionTrigger className="text-base">{f.q}</AccordionTrigger>
-                  <AccordionContent>
-                    <p className="text-[0.95rem] leading-relaxed text-muted-foreground">{f.a}</p>
-                    <p className="mt-3 rounded-xl bg-sun-soft px-3 py-2 text-sun-foreground"><strong>For example: </strong>{f.ex}</p>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Reveal>
-        </div>
-      </section>
+      <Section id="faq-title" className="grid gap-10 lg:grid-cols-[1fr_1.5fr]">
+        <SectionHeading id="faq-title" eyebrow="Quick answers" title="Questions people often ask." />
+        <Accordion type="single" collapsible defaultValue="q0" className="rounded-lg border bg-card px-5">
+          {faqs.map((f, i) => (
+            <AccordionItem key={f.q} value={`q${i}`}>
+              <AccordionTrigger className="text-[0.9375rem]">{f.q}</AccordionTrigger>
+              <AccordionContent>
+                <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">{f.a}</p>
+                <Example className="mt-3 text-sm">{f.ex}</Example>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Section>
 
       {/* CTA */}
-      <section className="container-page mt-24">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-brand p-8 text-primary-foreground sm:p-12">
-            <Droplets className="animate-float absolute -top-6 -right-4 size-40 text-white/10" aria-hidden="true" />
-            <h2 className="max-w-xl font-serif text-3xl font-semibold text-balance sm:text-4xl">Ready to understand it, one small step at a time?</h2>
-            <p className="mt-3 max-w-xl text-lg opacity-90">No account. No tracking. Your progress stays on your own device.</p>
-            <Button asChild size="lg" variant="secondary" className="mt-6"><Link href="/learn">Begin step 1 <ArrowRight /></Link></Button>
-          </div>
-        </Reveal>
+      <section className="container-page">
+        <div className="rounded-2xl border bg-tint px-6 py-12 text-center sm:py-16">
+          <h2 className="mx-auto max-w-xl text-h2 text-balance">Ready to understand it, one small step at a time?</h2>
+          <p className="mx-auto mt-3 max-w-md text-muted-foreground">No account. No tracking. Your progress stays on your own device.</p>
+          <Button asChild size="lg" className="mt-7"><Link href="/learn">Begin step 1 <ArrowRight /></Link></Button>
+        </div>
       </section>
     </>
   );

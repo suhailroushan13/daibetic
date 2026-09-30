@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Clock } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { getArticle, getArticles, toSummary } from '@/lib/content';
 import { categories } from '@/data/navigation';
 import { ResearchBrowser } from '@/components/site/research-browser';
 import { EvidenceBadge } from '@/components/site/evidence-badge';
-import { Reveal } from '@/components/site/reveal';
+import { PageHeader } from '@/components/site/section-heading';
 
 export const metadata: Metadata = {
   title: 'All articles',
@@ -17,27 +17,21 @@ export default function ResearchIndexPage() {
   const articles = getArticles();
   const pick = getArticle('fundamentals/mental-model')!;
   return (
-    <div className="container-page py-12">
-      <Reveal>
-        <p className="text-xs font-semibold tracking-wider text-brand-foreground uppercase">The blog</p>
-        <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-balance sm:text-6xl">Read about diabetes, your way.</h1>
-        <p className="mt-4 max-w-2xl text-xl leading-relaxed text-muted-foreground">{articles.length} short articles across {categories.length} topics. Every one begins with a plain-words summary and an example.</p>
-      </Reveal>
+    <div className="container-page py-12 sm:py-16">
+      <PageHeader eyebrow="All articles" title="Read about diabetes, your way.">
+        {articles.length} short articles across {categories.length} topics. Every one begins with a plain-words summary and an example.
+      </PageHeader>
 
-      <Reveal delay={0.08}>
-        <Link href={pick.route} className="group mt-10 grid gap-6 overflow-hidden rounded-3xl border bg-gradient-to-br from-brand-soft via-card to-sun-soft/50 p-6 transition-shadow hover:shadow-lg sm:p-8 md:grid-cols-[1.4fr_1fr]">
-          <div>
-            <p className="text-xs font-semibold tracking-wider text-brand-foreground uppercase">Start with this one</p>
-            <h2 className="mt-2 font-serif text-3xl leading-tight font-semibold sm:text-4xl">{pick.title}</h2>
-            <p className="mt-3 text-lg leading-relaxed text-muted-foreground">{pick.simple.tldr}</p>
-            <span className="mt-5 inline-flex items-center gap-2 font-medium text-brand-foreground">Read the article <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></span>
-          </div>
-          <div className="flex flex-col justify-end gap-2 text-sm text-muted-foreground md:items-end">
-            <span className="inline-flex items-center gap-1.5"><Clock className="size-4" aria-hidden="true" />{pick.readingTime} min read</span>
-            <EvidenceBadge level={pick.evidenceLevel} />
-          </div>
-        </Link>
-      </Reveal>
+      <Link href={pick.route} className="group mt-10 block rounded-2xl border bg-tint p-6 transition-colors hover:border-rule sm:p-8">
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="label text-muted-foreground">Start with this one</p>
+          <span className="text-xs text-muted-foreground"><span className="num">{pick.readingTime}</span> min read</span>
+          <EvidenceBadge level={pick.evidenceLevel} className="ml-auto" />
+        </div>
+        <h2 className="mt-3 text-h3">{pick.title}</h2>
+        <p className="mt-2 max-w-2xl leading-relaxed text-muted-foreground">{pick.simple.tldr}</p>
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">Read the article <ArrowRight className="size-4" aria-hidden="true" /></span>
+      </Link>
 
       <div className="mt-12">
         <ResearchBrowser articles={articles.map(toSummary)} />

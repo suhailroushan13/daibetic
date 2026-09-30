@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'motion/react';
+import { Example } from '@/components/site/example';
 import { cn } from '@/lib/utils';
 
 const factors = [
@@ -17,18 +17,18 @@ const factors = [
 export function RiskExplorer() {
   const [selected, setSelected] = useState<string[]>([]);
   return (
-    <section className="risk-explorer my-8 rounded-3xl border bg-card p-5 shadow-xs sm:p-6">
-      <span className="text-xs font-semibold tracking-wider text-brand-foreground uppercase">Learning demo</span>
-      <h3 className="mt-1 font-serif text-xl font-semibold">Explore the signals. Understand their limits.</h3>
+    <section className="risk-explorer my-8 rounded-lg border bg-card p-5 text-foreground sm:p-6">
+      <span className="text-xs font-medium text-muted-foreground">Learning demo</span>
+      <h3 className="mt-1 text-h4">Explore the signals. Understand their limits.</h3>
       <p className="mt-2 text-sm text-muted-foreground">This is not a real risk calculator. It gives no probability, no diagnosis and no treatment advice — just an explanation of what each signal can and cannot tell you. Your choices stay on this page and are never sent anywhere.</p>
       <fieldset className="mt-4">
-        <legend className="mb-2 text-sm font-medium">Tick a signal to learn about it</legend>
+        <legend className="mb-2 text-sm font-semibold">Tick a signal to learn about it</legend>
         <div className="flex flex-wrap gap-2">
           {factors.map((f) => {
             const on = selected.includes(f.name);
             return (
-              <label key={f.name} className={cn('inline-flex cursor-pointer items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring', on ? 'border-brand bg-brand-soft text-brand-foreground' : 'hover:bg-accent')}>
-                <input type="checkbox" className="size-4 accent-[var(--brand)]" checked={on} onChange={() => setSelected(on ? selected.filter((s) => s !== f.name) : [...selected, f.name])} />
+              <label key={f.name} className={cn('inline-flex h-8 cursor-pointer items-center gap-2 rounded-full border px-3.5 text-sm transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ring', on ? 'border-brand-border bg-brand-muted text-brand-foreground' : 'text-muted-foreground hover:text-foreground')}>
+                <input type="checkbox" className="size-3.5 accent-[var(--primary)] focus-visible:outline-none" checked={on} onChange={() => setSelected(on ? selected.filter((s) => s !== f.name) : [...selected, f.name])} />
                 {f.name}
               </label>
             );
@@ -36,20 +36,18 @@ export function RiskExplorer() {
         </div>
       </fieldset>
       <div aria-live="polite" className="mt-4 grid gap-3">
-        {!selected.length && <p className="rounded-2xl bg-muted/60 p-4 text-sm text-muted-foreground">Tick a signal to see what it can — and cannot — tell you.</p>}
-        <AnimatePresence initial={false}>
-          {factors.filter((f) => selected.includes(f.name)).map((f) => (
-            <motion.article key={f.name} layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97 }} className="rounded-2xl border bg-muted/40 p-4">
-              <span className="text-xs font-semibold tracking-wide text-brand-foreground uppercase">{f.type}</span>
-              <h4 className="mt-0.5 font-semibold">{f.name}</h4>
-              <p className="mt-1 leading-relaxed">{f.simple}</p>
-              <p className="mt-2 rounded-xl bg-sun-soft px-3 py-2 text-sm text-sun-foreground"><strong>For example: </strong>{f.example}</p>
-              <p className="mt-2 text-[0.8125rem] text-muted-foreground"><strong>In science words:</strong> {f.detail}</p>
-            </motion.article>
-          ))}
-        </AnimatePresence>
+        {!selected.length && <p className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">Tick a signal to see what it can — and cannot — tell you.</p>}
+        {factors.filter((f) => selected.includes(f.name)).map((f) => (
+          <article key={f.name} className="rounded-md border bg-tint p-4">
+            <span className="text-xs font-medium text-brand">{f.type}</span>
+            <h4 className="mt-0.5 font-semibold">{f.name}</h4>
+            <p className="mt-1 leading-relaxed">{f.simple}</p>
+            <Example className="mt-2 text-sm">{f.example}</Example>
+            <p className="mt-2 text-[0.8125rem] text-muted-foreground"><strong className="font-semibold">In science words:</strong> {f.detail}</p>
+          </article>
+        ))}
       </div>
-      <Link href="/prediction/risk-tree" className="mt-4 inline-block text-sm font-medium text-brand-foreground underline underline-offset-2">Follow the screening steps →</Link>
+      <Link href="/prediction/risk-tree" className="mt-4 inline-block text-sm font-medium text-brand hover:underline">Follow the screening steps →</Link>
     </section>
   );
 }

@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
-import '@fontsource-variable/newsreader';
+import '@fontsource-variable/figtree';
+import '@fontsource-variable/inter';
 import './globals.css';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
@@ -12,17 +11,17 @@ const site = (process.env.SITE_URL || 'https://diabetes.suhailroushan.com').repl
 
 export const metadata: Metadata = {
   metadataBase: new URL(site),
-  title: { default: 'Glucose Atlas: diabetes explained in simple words', template: '%s · Glucose Atlas' },
+  title: { default: 'The Diabetes Guide: diabetes explained in simple words', template: '%s · The Diabetes Guide' },
   description: 'Diabetes explained in simple words, with real-life examples and honest sources. A friendly guide for children, parents and grandparents.',
-  applicationName: 'Glucose Atlas',
+  applicationName: 'The Diabetes Guide',
   alternates: { types: { 'application/rss+xml': '/rss.xml' } },
-  openGraph: { type: 'website', siteName: 'Glucose Atlas', locale: 'en_GB' },
+  openGraph: { type: 'website', siteName: 'The Diabetes Guide', locale: 'en_GB' },
   twitter: { card: 'summary' },
   icons: { icon: '/favicon.svg' },
 };
 
 export const viewport: Viewport = {
-  themeColor: [{ media: '(prefers-color-scheme: light)', color: '#ffffff' }, { media: '(prefers-color-scheme: dark)', color: '#111827' }],
+  themeColor: [{ media: '(prefers-color-scheme: light)', color: '#ffffff' }, { media: '(prefers-color-scheme: dark)', color: '#000000' }],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

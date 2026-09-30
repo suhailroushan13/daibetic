@@ -29,7 +29,7 @@ function toMarkdown(body: string) {
 }
 
 export function GET() {
-  let out = '# Glucose Atlas: the diabetes research report\n\nSource-checked 30 September 2026. AI-assisted educational research; not independently medically reviewed. Not individual medical advice. This is a curated narrative library, not a systematic review.\n\n';
+  let out = '# The Diabetes Guide: the full research report\n\nSource-checked 30 September 2026. AI-assisted educational research; not independently medically reviewed. Not individual medical advice. This is a curated narrative library, not a systematic review.\n\n';
   reportParts.forEach((part, i) => {
     out += `\n# PART ${i + 1} — ${part.title}\n\n`;
     for (const slug of part.slugs) {

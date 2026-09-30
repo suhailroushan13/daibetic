@@ -1,7 +1,7 @@
 'use client';
 
-import { Lightbulb } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Example } from '@/components/site/example';
 
 const levels = [
   {
@@ -27,18 +27,13 @@ const levels = [
 export function ThreeLevels() {
   return (
     <Tabs defaultValue="child" className="w-full">
-      <TabsList className="flex-wrap" aria-label="Pick a level of explanation">
+      <TabsList aria-label="Pick a level of explanation">
         {levels.map((l) => <TabsTrigger key={l.value} value={l.value}>{l.label}</TabsTrigger>)}
       </TabsList>
       {levels.map((l) => (
-        <TabsContent key={l.value} value={l.value} className="data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:slide-in-from-bottom-2">
-          <div className="rounded-3xl border bg-card p-6 shadow-xs sm:p-8">
-            <p className="font-serif text-xl leading-relaxed sm:text-2xl">{l.text}</p>
-            <p className="mt-5 flex gap-3 rounded-2xl bg-sun-soft p-4 text-sun-foreground">
-              <Lightbulb className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
-              <span><strong>For example: </strong>{l.example}</span>
-            </p>
-          </div>
+        <TabsContent key={l.value} value={l.value}>
+          <p className="text-lg leading-relaxed text-pretty">{l.text}</p>
+          <Example className="mt-5">{l.example}</Example>
         </TabsContent>
       ))}
     </Tabs>

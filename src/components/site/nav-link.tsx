@@ -12,7 +12,7 @@ export function NavLink({ href, children, className, onClick }: { href: string; 
       href={href}
       onClick={onClick}
       aria-current={active ? 'page' : undefined}
-      className={cn('rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground aria-[current=page]:bg-brand-soft aria-[current=page]:text-brand-foreground', className)}
+      className={cn('rounded-md px-2.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:text-brand', className)}
     >
       {children}
     </Link>
