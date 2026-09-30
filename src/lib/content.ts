@@ -135,7 +135,7 @@ export function formatDate(iso: string) {
   return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso));
 }
 
-export const SITE_URL = (process.env.SITE_URL || 'https://diabetes.suhailroushan.com').replace(/\/$/, '');
+export const SITE_URL = (process.env.SITE_URL || 'https://diabetesguide.live').replace(/\/$/, '');
 
 /** Serialize JSON for a <script> tag without allowing "</script>" breakouts. */
 export const safeJson = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c');

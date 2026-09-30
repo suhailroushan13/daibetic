@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Logo } from '@/components/site/logo';
+import { LiveVisitorsPill } from '@/components/site/live-visitors';
 import { categories } from '@/data/navigation';
 
 const explore = [
@@ -43,9 +44,12 @@ export function SiteFooter() {
         </nav>
       </div>
       <div className="border-t">
-        <p className="container-page py-5 text-xs text-muted-foreground">
-          AI-assisted educational research, source-checked on 30 September 2026. Not independently reviewed by a medical professional.
-        </p>
+        <div className="container-page flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-muted-foreground">
+            AI-assisted educational research, source-checked on 30 September 2026. Not independently reviewed by a medical professional.
+          </p>
+          <LiveVisitorsPill className="shrink-0 self-start sm:self-auto" />
+        </div>
       </div>
     </footer>
   );

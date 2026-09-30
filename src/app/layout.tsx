@@ -1,13 +1,15 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
 import '@fontsource-variable/figtree';
 import '@fontsource-variable/inter';
 import './globals.css';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
+import { LiveStatsBar } from '@/components/site/live-visitors';
 import { themeScript } from '@/components/site/theme-toggle';
 
-const site = (process.env.SITE_URL || 'https://diabetes.suhailroushan.com').replace(/\/$/, '');
+const site = (process.env.SITE_URL || 'https://diabetesguide.live').replace(/\/$/, '');
 
 export const metadata: Metadata = {
   metadataBase: new URL(site),
@@ -18,6 +20,8 @@ export const metadata: Metadata = {
   openGraph: { type: 'website', siteName: 'The Diabetes Guide', locale: 'en_GB' },
   twitter: { card: 'summary' },
   icons: { icon: '/favicon.svg' },
+  // Google Search Console: the token from its "HTML tag" verification method.
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
 };
 
 export const viewport: Viewport = {
@@ -30,9 +34,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-svh flex-col">
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeScript }} />
         <a href="#main" className="skip-link">Skip to content</a>
+        <LiveStatsBar />
         <SiteHeader />
         <main id="main" className="flex-1">{children}</main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
