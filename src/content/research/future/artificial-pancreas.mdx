@@ -1,0 +1,35 @@
+---
+title: "The artificial pancreas as a feedback system"
+description: "Understand how a CGM, control algorithm, insulin pump, and human physiology form a loop—and what the loop does not solve."
+category: "future"
+subcategory: "artificial-pancreas"
+slug: "future/artificial-pancreas"
+datePublished: "2026-09-30"
+dateModified: "2026-09-30"
+author: "Glucose Atlas editorial project"
+tags: ["future","artificial-pancreas"]
+difficulty: "Intermediate"
+readingTime: 1
+evidenceLevel: "Strong Evidence"
+reviewedDate: "2026-09-30"
+clinicalReview: "Not independently medically reviewed"
+featured: false
+relatedTopics: ["fundamentals/mental-model","type-1/overview","type-2/overview"]
+sources: ["ada-technology","crises"]
+order: 106
+---
+## The system architecture
+
+CGM → algorithm → insulin pump → body → CGM. The sensor estimates interstitial glucose. The algorithm predicts near-term behavior within safety constraints. The pump delivers insulin, which takes time to absorb and act. The resulting glucose feeds back into the next decision. <Citation id="ada-technology" />
+
+<InteractiveDiagram kind="aid" />
+
+## Delays and disturbances
+
+Meals, exercise, stress, illness and infusion-site changes disturb the system. Once insulin is delivered, the algorithm cannot recall it. A sensor has noise and lag. Many systems still require user input or meal announcements; “closed loop” does not necessarily mean fully autonomous daily life.
+
+## What it solves—and what remains
+
+Automated delivery can improve glucose management and reduce burden for appropriate users. It does not restore beta cells or stop autoimmunity. Connectivity, supply access, training, hypoglycemia prevention and a backup plan remain essential. <Citation id="crises" />
+
+<Callout type="analogy" title="Control theory — interpretation">This resembles a constrained controller with delayed actuation and imperfect state estimation. Safe design optimizes glucose outcomes while limiting the harm of prediction errors.</Callout>

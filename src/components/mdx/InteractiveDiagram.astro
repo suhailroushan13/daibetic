@@ -1,0 +1,5 @@
+---
+import PathwayDiagram from '../interactive/PathwayDiagram';
+interface Props { kind?:string }
+---
+<PathwayDiagram kind={Astro.props.kind} client:visible/>

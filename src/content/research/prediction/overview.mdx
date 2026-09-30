@@ -1,0 +1,37 @@
+---
+title: "Prediction is not diagnosis"
+description: "Understand validated risk factors, statistical calibration, clinical screening tools, and experimental biomarker prediction."
+category: "prediction"
+subcategory: "overview"
+slug: "prediction/overview"
+datePublished: "2026-09-30"
+dateModified: "2026-09-30"
+author: "Glucose Atlas editorial project"
+tags: ["prediction","overview"]
+difficulty: "Beginner"
+readingTime: 2
+evidenceLevel: "Established"
+reviewedDate: "2026-09-30"
+clinicalReview: "Not independently medically reviewed"
+featured: false
+relatedTopics: ["fundamentals/mental-model","type-1/overview","type-2/overview"]
+sources: ["ada-diagnosis","idrs","ai-validation","niddk-resistance"]
+order: 110
+---
+## Four different tasks
+
+Risk prediction estimates a future event over a specified time horizon. Screening seeks an unrecognized condition now. Diagnosis applies clinical criteria. Staging describes the disease phase. Models with identical input fields may target completely different outcomes. <Citation id="ada-diagnosis" />
+
+## Useful established signals
+
+Age, family history, BMI, waist, blood pressure, activity, previous gestational diabetes, PCOS, lipids, liver disease and medication exposure inform assessment. Ancestry can proxy a mixture of biology and environment; it must not be treated as a deterministic individual explanation. Smoking, food access and social conditions add context. <Citation id="niddk-resistance" />
+
+## What makes a calculator credible?
+
+It needs a defined population, endpoint, time horizon, calibration, discrimination and independent validation. **Calibration** asks whether predicted probabilities match observed frequencies; **discrimination** asks whether the model ranks people correctly. High AUROC alone does not establish clinical usefulness. The Indian Diabetes Risk Score has been evaluated for identifying undiagnosed diabetes, which is not the same task as forecasting ten-year disease onset. <Citation id="idrs" />
+
+## Experimental extensions
+
+Genetics, metabolomics, proteomics, microbiome profiles, CGM patterns and wearables may add signals. **Metabolomics** measures many small molecules; **proteomics** measures many proteins. These data can also encode medication exposure, confounding or population-specific patterns. Current ML reviews still identify gaps in external validation, calibration and prospective implementation. <Citation id="ai-validation" />
+
+<InteractiveDiagram kind="risk" />

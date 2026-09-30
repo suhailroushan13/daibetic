@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/newsreader';
+import Sidebar from '../components/Sidebar.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import Icon from '../components/Icon.astro';
+import { safeJson } from '../lib/content';
+interface Props { title:string; description:string; article?:boolean; jsonld?:unknown; noindex?:boolean }
+const {title,description,jsonld,noindex=false}=Astro.props;
+const canonical=new URL(Astro.url.pathname,Astro.site);
+const og=new URL(`/og/${Astro.url.pathname.replace(/^\/|\/$/g,'') || 'home'}.png`,Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{title} | Glucose Atlas</title><meta name="description" content={description}/><link rel="canonical" href={canonical}/>
+    {noindex && <meta name="robots" content="noindex,follow"/>}
+    <meta property="og:type" content={Astro.props.article ? 'article':'website'}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content={og}/><meta property="og:image:alt" content={`${title} — Glucose Atlas research library`}/><meta name="twitter:card" content="summary_large_image"/>
+    <meta name="theme-color" content="#f8f9fb"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+    <link rel="alternate" type="application/rss+xml" title="Glucose Atlas updates" href="/rss.xml"/>
+    <script is:inline>try{const t=localStorage.getItem('atlas-theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch{}</script>
+    <script type="application/ld+json" set:html={safeJson(jsonld || {'@context':'https://schema.org','@type':'WebSite',name:'Glucose Atlas',url:Astro.site,description})}/>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="header-brand"><button id="menu-toggle" class="icon-button mobile-menu" aria-label="Open library navigation" aria-expanded="false" aria-controls="library-navigation"><Icon name="menu"/></button><a href="/" class="brand"><img src="/favicon.svg" alt="" width="32" height="32"/><span>Glucose<span class="brand-light">Atlas</span><small>THE DIABETES KNOWLEDGE PROJECT</small></span></a></div>
+      <nav class="header-links" aria-label="Quick links"><a href="/research">Explore the library</a><a href="/future/state-of-research">Research in 2026 <span class="tiny-dot"></span></a><a href="/about">Our approach</a></nav>
+      <div class="header-actions"><button id="theme-toggle" class="icon-button" aria-label="Switch color theme"><Icon name="sun"/></button><span class="header-divider"></span><a href="/search" data-open-search class="header-search"><Icon name="search" size={18}/><span>Search</span><kbd>⌘ K</kbd></a></div>
+    </header>
+    <div id="nav-backdrop" hidden></div><Sidebar/>
+    <div class="site-main"><main id="main-content" tabindex="-1"><slot/></main>
+      <footer class="site-footer"><div><a href="/" class="footer-brand">Glucose Atlas<span>Understanding changes everything.</span></a><p>An independent educational research project. Not a substitute for professional medical advice, diagnosis, or treatment.</p></div><div><a href="/sources">Sources & methodology</a><a href="/about">Editorial transparency</a><a href="/rss.xml">Research feed ↗</a></div><p class="footer-small">Source-checked 30 September 2026.<br/>Not independently medically reviewed.</p></footer>
+    </div>
+    <SearchDialog/>
+    <script>
+      const themeButton=document.querySelector<HTMLButtonElement>('#theme-toggle');
+      function updateThemeLabel(){themeButton?.setAttribute('aria-label',`Switch to ${document.documentElement.dataset.theme==='dark' ? 'light':'dark'} mode`);}
+      updateThemeLabel();
+      themeButton?.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark' ? 'light':'dark';document.documentElement.dataset.theme=next;try{localStorage.setItem('atlas-theme',next);}catch{}updateThemeLabel();});
+      const menu=document.querySelector<HTMLButtonElement>('#menu-toggle');const backdrop=document.querySelector<HTMLElement>('#nav-backdrop');
+      function setMenu(open:boolean){document.body.classList.toggle('nav-open',open);menu?.setAttribute('aria-expanded',String(open));menu?.setAttribute('aria-label',open?'Close library navigation':'Open library navigation');if(backdrop)backdrop.hidden=!open;}
+      menu?.addEventListener('click',()=>setMenu(!document.body.classList.contains('nav-open')));
+      backdrop?.addEventListener('click',()=>setMenu(false));
+      document.addEventListener('keydown',e=>{if(e.key==='Escape' && document.body.classList.contains('nav-open')){setMenu(false);menu?.focus();}});
+    </script>
+  </body>
+</html>

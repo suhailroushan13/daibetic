@@ -1,0 +1,7 @@
+---
+import {sources} from '../../data/sources';
+interface Props { id:string; label?:string }
+const {id,label}=Astro.props;
+if(!sources[id])throw new Error(`Invalid citation: ${id}`);
+---
+<a class="citation" href={`#source-${id}`} data-citation={id} aria-label={`Reference: ${sources[id].title}`} title={sources[id].title}>{label||'↗'}</a>

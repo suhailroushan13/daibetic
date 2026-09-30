@@ -1,0 +1,13 @@
+---
+import {sources} from '../../data/sources';
+import EvidenceBadge from '../EvidenceBadge.astro';
+interface Props { id:string; bibliography?:boolean; number?:number }
+const {id,bibliography=false,number}=Astro.props;
+const source=sources[id];
+if(!source)throw new Error(`Missing source ${id}`);
+---
+<article class="source-card" id={bibliography?id:`source-${id}`} data-source-year={source.year} data-source-type={source.type} data-source-evidence={source.evidence} data-source-topics={source.topics.join(' ')}>
+ <h3>{number && <span class="source-number">{number}. </span>}<a href={source.url} rel="noopener noreferrer" target="_blank">{source.title} ↗<span class="sr-only"> (opens in a new tab)</span></a></h3>
+ <div class="source-meta">{source.organization} · {source.year} · {source.type} · Hierarchy level {source.hierarchy}</div><EvidenceBadge level={source.evidence}/>
+ <details><summary>Population, limitations & source check</summary>{source.population && <p><strong>Population:</strong> {source.population}</p>}{source.sampleSize && <p><strong>Sample:</strong> {source.sampleSize}</p>}<p><strong>Limitations:</strong> {source.limitations}</p><p>Source checked {source.checked}. See the original publication for the full methods.</p></details>
+</article>

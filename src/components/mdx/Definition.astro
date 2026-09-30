@@ -1,0 +1,5 @@
+---
+interface Props { term:string }
+const {term}=Astro.props;
+---
+<div class="callout"><div class="callout-title">In plain English</div><p><dfn><strong>{term}</strong></dfn> — <slot/></p></div>

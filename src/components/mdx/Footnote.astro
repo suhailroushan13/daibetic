@@ -1,0 +1,5 @@
+---
+interface Props { id:string }
+const {id}=Astro.props;
+---
+<aside id={`footnote-${id}`} class="article-notice" role="note"><slot/></aside>

@@ -1,0 +1,5 @@
+---
+import Callout from './Callout.astro';
+const {title='Safety & clinical context'}=Astro.props;
+---
+<Callout type="warning" title={title}><slot/></Callout>

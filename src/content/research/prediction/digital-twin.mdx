@@ -1,0 +1,42 @@
+---
+title: "Designing a diabetes digital twin"
+description: "A hypothetical software architecture for longitudinal metabolic data, with explicit limits on causal inference, dosing, and individual prediction."
+category: "prediction"
+subcategory: "digital-twin"
+slug: "prediction/digital-twin"
+datePublished: "2026-09-30"
+dateModified: "2026-09-30"
+author: "Glucose Atlas editorial project"
+tags: ["prediction","digital-twin"]
+difficulty: "Advanced"
+readingTime: 2
+evidenceLevel: "Experimental"
+reviewedDate: "2026-09-30"
+clinicalReview: "Not independently medically reviewed"
+featured: false
+relatedTopics: ["fundamentals/mental-model","type-1/overview","type-2/overview"]
+sources: ["ai-validation","ada-diagnosis","staging"]
+order: 112
+---
+## A useful model starts with a narrow claim
+
+A digital twin is a computational representation updated with an individual's data. Calling a dashboard a twin does not validate it. First choose a task: detecting a trend, forecasting glucose over a short horizon, or estimating long-term Type 2 risk. Each requires different training data and outcome validation. <Citation id="ai-validation" />
+
+## Proposed architecture — interpretation
+
+| Layer | Responsibility | Guardrail |
+| --- | --- | --- |
+| Ingestion | Labs, medications, CGM, history, activity, sleep | Consent, units, timestamps and device provenance |
+| Quality | Missing data, outliers, biological confounders | Do not silently impute clinical truth |
+| State representation | Trends and uncertainty, not an invented stage | Separate T1D and T2D causal models |
+| Prediction | A validated task with a specified horizon | External calibration, subgroup audits and drift detection |
+| Presentation | Show data, explanations and uncertainty | No unsupervised diagnosis or dosing |
+| Clinical integration | Professional assessment and follow-up | Traceability, oversight and fail-safe behavior |
+
+## What would be valid?
+
+Displaying a verified HbA1c trend is feasible. Applying a validated risk score to the intended population can be defensible. Diagnosing autoimmune disease from a smartwatch, estimating beta-cell mass from BMI, or assigning personalized insulin doses from an unvalidated model is not. T1D staging depends on immunologic and metabolic evidence. <Citation id="ada-diagnosis" /><Citation id="staging" />
+
+## The counterfactual problem
+
+A predictive model can learn who receives a treatment rather than what would happen if treatment changed. Observational accuracy does not establish intervention effects. Safe simulation requires causal assumptions, uncertainty analysis and prospective evaluation.

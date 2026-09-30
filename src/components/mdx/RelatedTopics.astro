@@ -1,0 +1,7 @@
+---
+import {getArticles} from '../../lib/content';
+interface Props { slugs:string[] }
+const {slugs}=Astro.props;
+const articles=await getArticles();
+---
+<nav class="related-topics" aria-label="Related topics"><h2>Follow the connections</h2><div class="related-grid">{slugs.map(slug=><a href={`/${slug}`}>{articles.find(a=>a.data.slug===slug)?.data.title || slug} →</a>)}</div></nav>

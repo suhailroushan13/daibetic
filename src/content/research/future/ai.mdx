@@ -1,0 +1,47 @@
+---
+title: "AI and diabetes: deployed systems and open questions"
+description: "Separate narrow clinical AI applications from experimental risk models, digital twins, wearable inference, and medical language models."
+category: "future"
+subcategory: "ai"
+slug: "future/ai"
+datePublished: "2026-09-30"
+dateModified: "2026-09-30"
+author: "Glucose Atlas editorial project"
+tags: ["future","ai"]
+difficulty: "Advanced"
+readingTime: 2
+evidenceLevel: "Moderate Evidence"
+reviewedDate: "2026-09-30"
+clinicalReview: "Not independently medically reviewed"
+featured: false
+relatedTopics: ["fundamentals/mental-model","type-1/overview","type-2/overview"]
+sources: ["retinal-ai","ada-technology","ai-validation"]
+order: 107
+---
+## Where the evidence is already concrete
+
+Autonomous retinal screening systems address a narrow imaging task under specified conditions. Clinical studies evaluate referral and workflow outcomes, not just test-set classification. This differs from asking a general chatbot to diagnose an eye condition. <Citation id="retinal-ai" />
+
+Automated insulin delivery uses algorithms with defined device boundaries. Not every controller is machine learning, and not every glucose prediction model is approved to control insulin. <Citation id="ada-technology" />
+
+## A map of tasks
+
+| Task | Status and boundary |
+| --- | --- |
+| Retinal image screening | Deployed, validated products for specified indications; referral systems still matter |
+| Glucose prediction / low-glucose alerts | Used in defined devices; performance depends on horizon and conditions |
+| EHR Type 2 prediction | Promising studies, variable external validation and clinical impact |
+| Genomics / metabolomics / proteomics | Research signals; population transfer and incremental value need testing |
+| Wearables / sleep / heart rate | Nonspecific features; insufficient for stand-alone diabetes diagnosis |
+| Digital twins / personalized nutrition | Task-dependent research, not a validated whole-person oracle |
+| Medical LLM answers | May retrieve or summarize; hallucination and unsafe inference remain risks |
+
+<Citation id="ai-validation" />
+
+## For a software engineer
+
+Evaluate label leakage, missingness, dataset shift, calibration, subgroup performance and clinical utility. A retrospective AUROC cannot tell you whether deployment improves health. Ask whether the model predicts future disease, identifies present disease, or detects documentation habits.
+
+## A source-first question interface
+
+This site searches the existing knowledge base rather than generating medical answers. Any future generative layer should show retrieved passages, cite their sources, distinguish interpretation, and refuse unsupported diagnosis or dosing. See [the digital-twin architecture](/prediction/digital-twin).

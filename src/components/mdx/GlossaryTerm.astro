@@ -1,0 +1,5 @@
+---
+interface Props { term:string; definition:string }
+const {term,definition}=Astro.props;
+---
+<a class="glossary-term" href={`/glossary#${term.toLowerCase().replace(/[^a-z0-9]+/g,'-')}`} title={definition}><dfn>{term}</dfn></a>

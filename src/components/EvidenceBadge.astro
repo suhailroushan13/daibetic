@@ -1,0 +1,8 @@
+---
+import { evidenceDescriptions, type EvidenceLevel } from '../data/evidence';
+interface Props { level: EvidenceLevel }
+const { level } = Astro.props;
+---
+<span class:list={['evidence-badge', { 'evidence-emerging': ['Experimental','Preliminary','Limited Evidence','Unknown'].includes(level) }]} tabindex="0" aria-label={`${level}: ${evidenceDescriptions[level]}`}>
+  <span aria-hidden="true" class="evidence-dot"></span>{level}<span class="evidence-tooltip" role="tooltip">{evidenceDescriptions[level]}</span>
+</span>

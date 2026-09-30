@@ -1,0 +1,11 @@
+{
+  "id": "future-dataset-schema-only",
+  "title": "Schema example — not research data",
+  "measure": "Specify prevalence, incidence, or another defined outcome",
+  "unit": "Specify units",
+  "population": "Specify age range, location, eligibility and sample",
+  "sourceId": "A validated source registry ID is required before use",
+  "limitations": "Document missingness, uncertainty intervals and comparability",
+  "points": [],
+  "note": "Intentionally contains no invented observations. Not rendered as a chart."
+}

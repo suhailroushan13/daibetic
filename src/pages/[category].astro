@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import {categories} from '../data/navigation';
+import {getArticles} from '../lib/content';
+export function getStaticPaths(){return categories.map(category=>({params:{category:category.key},props:{category}}));}
+const {category}=Astro.props;const articles=(await getArticles()).filter(a=>a.data.category===category.key);
+---
+<BaseLayout title={category.label} description={`${category.description} Browse connected, sourced research explanations in the Glucose Atlas library.`}><div class="page-shell"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span>{category.label}</span></nav><span class="eyebrow">RESEARCH AREA · {articles.length} TOPICS</span><h1 class="page-title">{category.label}</h1><p class="page-description">{category.description}</p><div class="section-heading"><p>Explore the underlying biology, clinical evidence, and open questions.</p></div><div class="article-index">{articles.map(article=><ArticleCard article={article}/>)}</div></div></BaseLayout>

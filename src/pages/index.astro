@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import EvidenceBadge from '../components/EvidenceBadge.astro';
+import GlucoseJourney from '../components/interactive/GlucoseJourney';
+import {categories} from '../data/navigation';
+import {sourceList} from '../data/sources';
+import {getArticles,formatDate} from '../lib/content';
+const articles=await getArticles();
+const featured=['future/stem-cells','type-2/remission','future/state-of-research'].map(slug=>articles.find(a=>a.data.slug===slug)).filter(a=>a!==undefined);
+const lastUpdated=new Date(Math.max(...articles.map(a=>a.data.dateModified.getTime())));
+---
+<BaseLayout title="Diabetes, explained from biology to the future" description="An open diabetes research library. Explore Type 1, Type 2, prevention, remission, and emerging therapies through clear explanations and original sources.">
+<div class="page-shell">
+ <div class="home-topline"><span class="eyebrow">AN INDEPENDENT RESEARCH LIBRARY</span><span class="update-label"><span class="tiny-dot"></span> &nbsp; Living knowledge · 2026 edition</span></div>
+ <section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy"><div class="hero-overline"><Icon name="network" size={15}/> UNDERSTAND THE WHOLE SYSTEM</div><h1 id="hero-title">Diabetes, explained<br/>from biology<br/>to <em>the future.</em></h1><p class="hero-description">Go beyond the diagnosis. Explore how the body works, why diabetes develops, and where the science is taking us—one connected idea at a time.</p><div class="hero-buttons"><a href="/learn" class="button button-primary">Start Research <Icon name="right" size={16}/></a><a href="/search" data-open-search class="button"><Icon name="search" size={15}/>Search the Research</a></div><p class="hero-footnote"><Icon name="check" size={13}/> Evidence-led. Independently sourced. Open to everyone.</p></div>
+  <GlucoseJourney compact client:load/>
+ </section>
+ <div class="stats-strip" aria-label="Library statistics"><div class="stat"><strong>{articles.length}</strong><span>Connected<br/>research topics</span></div><div class="stat"><strong>{sourceList.length}</strong><span>Original & authoritative<br/>references</span></div><div class="stat"><strong>{categories.length}</strong><span>Research<br/>areas</span></div><div class="stat stat-date"><strong>{formatDate(lastUpdated).replace('2026','')}<br/>2026</strong><span>Latest<br/>source check</span></div></div>
+ <section aria-labelledby="explore-title"><div class="section-heading"><div><span class="eyebrow">FOLLOW YOUR CURIOSITY</span><h2 id="explore-title">A library, not a rabbit hole.</h2><p>Start with a question. See how the pieces connect.</p></div><a href="/research" class="text-link">All research topics <Icon name="right" size={14}/></a></div>
+ <div class="topic-grid">{categories.slice(0,10).map((cat,i)=><a href={`/${cat.key}`} class="topic-card"><div class="topic-card-top"><span class="topic-icon"><Icon name={cat.icon} size={21}/></span><span class="topic-count">{articles.filter(a=>a.data.category===cat.key).length} topics</span></div><h3>{cat.label}</h3><p>{cat.description}</p><div class="topic-card-bottom"><span>CHAPTER {String(i+1).padStart(2,'0')}</span><Icon name="arrow" size={15}/></div></a>)}</div></section>
+ <section class="learning-banner" aria-labelledby="learning-title"><div><span class="eyebrow">A GUIDED WAY IN</span><h2 id="learning-title">New to all of this? Start here.</h2><p>A connected learning path, from your first glucose molecule to the next scientific breakthrough.</p><a href="/learn" class="text-link">Follow the learning path <Icon name="right" size={15}/></a></div><div class="mini-path"><a href="/fundamentals/glucose">01 &nbsp; Glucose</a><span>→</span><a href="/fundamentals/pancreas">02 &nbsp; Pancreas</a><span>→</span><a href="/fundamentals/insulin">03 &nbsp; Insulin</a><span>→</span><a href="/fundamentals/homeostasis">04 &nbsp; Balance</a><span>→</span><a href="/learn">Keep exploring ↗</a></div></section>
+ <section aria-labelledby="research-title"><div class="section-heading"><div><span class="eyebrow">AT THE EDGE OF WHAT WE KNOW</span><h2 id="research-title">The science is moving forward.</h2><p>Promising findings. Honest limitations. Original sources.</p></div><a href="/future/state-of-research" class="text-link">The 2026 research review <Icon name="right" size={14}/></a></div><div class="research-grid">{featured.map(a=><article class="research-card"><EvidenceBadge level={a.data.evidenceLevel}/><h3><a href={`/${a.data.slug}`}>{a.data.title}</a></h3><p>{a.data.description}</p><a href={`/${a.data.slug}`} class="text-link">Read the research <Icon name="right" size={14}/></a></article>)}</div></section>
+ <div class="principle-bar"><div><Icon name="file" size={17}/> Follow the evidence</div><div><Icon name="layers" size={17}/> Understand the mechanisms</div><div><Icon name="flask" size={17}/> Keep uncertainty visible</div><a href="/about" class="text-link">Our approach ↗</a></div>
+</div></BaseLayout>

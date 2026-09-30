@@ -1,0 +1,5 @@
+---
+interface Props { status:string; date:string }
+const {status,date}=Astro.props;
+---
+<aside class="callout"><div class="callout-title">Research status · {date}</div><strong>{status}</strong><slot/></aside>
