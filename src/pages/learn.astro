@@ -1,8 +1,0 @@
----
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Icon from '../components/Icon.astro';
-import {learningPath} from '../data/navigation';
-import {getArticles} from '../lib/content';
-const all=await getArticles();const articles=learningPath.map(slug=>all.find(a=>a.data.slug===slug)).filter(a=>a!==undefined);
----
-<BaseLayout title="Start here: a connected learning path" description="Follow glucose from food to cells, then explore Type 1, Type 2, detection, prevention, treatment, remission, and future research."><div class="page-shell"><span class="eyebrow">THE GUIDED LEARNING PATH</span><h1 class="page-title">Start with the system.<br/>Build your understanding.</h1><p class="page-description">You don’t need a medical background. Each step adds one piece to the picture. Follow the sequence or jump to the question on your mind.</p><div class="hero-buttons"><a href="/fundamentals/mental-model" class="button button-primary">Begin with the mental model <Icon name="right" size={16}/></a><a href="/report" class="text-link">Explore the full 18-part report →</a></div><div class="learning-list">{articles.map((a,i)=><a href={`/${a.data.slug}`} class="learning-step"><span>{String(i+1).padStart(2,'0')}</span><div><h2>{a.data.title}</h2><p>{a.data.description}</p></div><Icon name="right" size={16}/></a>)}</div></div></BaseLayout>

@@ -1,8 +1,0 @@
----
-import type {CollectionEntry} from 'astro:content';
-import EvidenceBadge from './EvidenceBadge.astro';
-import {categories} from '../data/navigation';
-interface Props { article:CollectionEntry<'research'> }
-const {article}=Astro.props;const d=article.data;
----
-<article class="index-card" data-article-category={d.category} data-article-difficulty={d.difficulty} data-article-evidence={d.evidenceLevel} data-featured={d.featured} data-article-title={d.title.toLowerCase()}><span class="eyebrow">{categories.find(c=>c.key===d.category)?.label}</span><h2><a href={`/${d.slug}`}>{d.title}</a></h2><p>{d.description}</p><footer><EvidenceBadge level={d.evidenceLevel}/><small>{d.difficulty} · {d.readingTime} min</small></footer></article>

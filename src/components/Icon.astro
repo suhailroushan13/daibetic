@@ -1,8 +1,0 @@
----
-import { FileText } from 'lucide-react';
-import { icons } from './icons';
-interface Props { name?: string; size?: number; class?: string; strokeWidth?: number }
-const { name = 'arrow', size = 16, class: className, strokeWidth = 1.75 } = Astro.props;
-const Component = icons[name] ?? FileText;
----
-<Component size={size} strokeWidth={strokeWidth} className={className} aria-hidden="true" />

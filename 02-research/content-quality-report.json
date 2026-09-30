@@ -1,15 +1,14 @@
 {
-  "checkedAt": "2026-09-30T07:58:26.222Z",
-  "pages": 94,
+  "checkedAt": "2026-09-30T08:22:18.763Z",
   "articles": 72,
   "sources": 44,
   "errors": [],
   "warnings": [
-    "dpp (2002): older source; check whether newer evidence changes the claim. Foundational studies may remain appropriate.",
-    "exercise (2016): older source; check whether newer evidence changes the claim. Foundational studies may remain appropriate.",
-    "complication-mechanisms (2005): older source; check whether newer evidence changes the claim. Foundational studies may remain appropriate.",
-    "dcct (2014): older source; check whether newer evidence changes the claim. Foundational studies may remain appropriate.",
-    "staging (2015): older source; check whether newer evidence changes the claim. Foundational studies may remain appropriate."
+    "dpp (2002): older source; check whether newer evidence changes the claim.",
+    "exercise (2016): older source; check whether newer evidence changes the claim.",
+    "complication-mechanisms (2005): older source; check whether newer evidence changes the claim.",
+    "dcct (2014): older source; check whether newer evidence changes the claim.",
+    "staging (2015): older source; check whether newer evidence changes the claim."
   ],
   "limits": "Automated checks do not verify medical truth, source-link availability, or completeness. Independent clinical review remains required."
 }

@@ -1,5 +1,6 @@
-export interface GlossaryEntry {term:string;definition:string;topic:string;source:string;}
-export const glossary:GlossaryEntry[]=[
+export interface GlossaryEntry {term:string;definition:string;topic:string;source:string;simple:string;example:string;}
+type Base=Omit<GlossaryEntry,'simple'|'example'>;
+const base:Base[]=[
  {term:'Insulin resistance',definition:'A reduced response to insulin, so more insulin may be needed for the same effect.',topic:'type-2/insulin-resistance',source:'niddk-resistance'},
  {term:'Beta cell',definition:'A cell in a pancreatic islet that produces and releases insulin.',topic:'fundamentals/pancreas',source:'insulin-biology'},
  {term:'Alpha cell',definition:'A pancreatic islet cell that produces glucagon.',topic:'fundamentals/pancreas',source:'insulin-biology'},
@@ -30,4 +31,43 @@ export const glossary:GlossaryEntry[]=[
  {term:'Calibration',definition:'How well a model’s predicted probabilities agree with observed event frequencies.',topic:'prediction/overview',source:'ai-validation'},
  {term:'Surrogate endpoint',definition:'A measured marker used in place of a direct clinical outcome; improving it may not fully establish patient benefit.',topic:'future/immunotherapy',source:'tzield-2026'},
  {term:'Insulin independence',definition:'Not using external insulin during a specified observation period; this alone does not establish permanent cure.',topic:'future/stem-cells',source:'zimislecel'},
-].sort((a,b)=>a.term.localeCompare(b.term));
+];
+
+/** Everyday-words meanings, each with a picture you can hold in your head. */
+const easy:Record<string,[string,string]>={
+ 'Insulin resistance':['Your cells do not react to insulin as well as they should, so the body needs more of it.','Like getting used to a loud alarm: you need a louder one to wake up.'],
+ 'Beta cell':['A tiny cell in the pancreas that makes insulin.','The baker in a bakery who makes the bread everyone needs.'],
+ 'Alpha cell':['A pancreas cell that makes glucagon, which tells the liver to release sugar.','The person who opens the pantry when the family is hungry.'],
+ 'Autoantibody':['A defender protein that points at the body’s own parts by mistake.','A guard dog that barks at the family instead of a stranger.'],
+ 'HbA1c':['A blood test that shows your average sugar over the last few months.','A long-exposure photo that shows the whole trail of a moving light, not just one moment.'],
+ 'C-peptide':['A leftover piece made when insulin is made. It shows how much insulin your body still makes.','Sawdust left behind after a carpenter builds a chair: the more sawdust, the more chairs.'],
+ 'Glucagon':['A hormone that says “let some sugar out”.','When the fridge is empty, glucagon tells the family to open the freezer.'],
+ 'Glycation':['Sugar sticking to a protein where it should not.','Syrup sticking to a door handle so it goes stiff.'],
+ 'Ketosis':['The body burns fat and makes ketones as fuel. It can happen when you have not eaten for a long time.','Using the emergency wood pile when the coal runs out.'],
+ 'DKA':['A dangerous state with too many acid ketones because there is not enough insulin. It needs hospital care.','A car engine running on the wrong fuel and filling with smoke.'],
+ 'HHS':['Very high sugar with severe dehydration. The person may be confused.','A sponge left in the sun until it is dry and hard.'],
+ 'GLP-1':['A gut hormone that helps insulin come out after eating, calms appetite and slows the stomach.','A message from the tummy saying “I am full, you can stop now”.'],
+ 'GIP':['Another gut hormone that helps release insulin when you eat.','A second messenger sent from the kitchen to the control room.'],
+ 'Insulin sensitivity':['How well your cells listen to insulin. High sensitivity is good.','How quickly a class responds when the teacher speaks.'],
+ 'Visceral fat':['Fat stored deep in the belly, around the organs.','Stuffing packed around fragile items inside a box.'],
+ 'Ectopic fat':['Fat that ends up in places it should not, like the liver or muscle.','Suitcases stacked in the hallway instead of the storeroom.'],
+ 'Metabolic syndrome':['A group of things that often show up together: belly fat, blood pressure, cholesterol and sugar changes.','Several small warning lights that come on in the car at once.'],
+ 'Glycogen':['A storage form of sugar in the liver and muscles.','A piggy bank for sugar.'],
+ 'Gluconeogenesis':['The liver making brand-new sugar from other materials when food is not coming.','A bakery that bakes from leftover bread when the flour runs out.'],
+ 'Glycolysis':['The first steps where cells break sugar down to get energy.','Chopping a big log into pieces so it will burn.'],
+ 'ATP':['The small energy packets that cells spend to do their work.','Coins that cells use to pay for jobs.'],
+ 'GLUT4':['Little sugar doors in muscle and fat that open when insulin calls or muscles work.','A gate that swings open when the bell rings.'],
+ 'MASLD':['Extra fat in the liver that is linked to how the body handles energy.','A pantry with too many boxes stored in it.'],
+ 'Remission':['Sugar stays below the diabetes range without the usual diabetes medicine. It can come back.','A fire that has gone quiet, but you still watch the embers.'],
+ 'Dysglycemia':['Blood sugar that is not in the healthy range.','A thermostat that swings too hot or too cold.'],
+ 'Endothelium':['The thin lining inside blood vessels.','The smooth inside wall of a water pipe.'],
+ 'Albuminuria':['A protein called albumin leaking into the urine, which can be a sign that the kidneys are stressed.','A coffee filter that lets some grounds through.'],
+ 'Calibration':['Whether a prediction’s percentages match what really happens.','If the weather says “70% rain”, it should rain on about 7 of 10 such days.'],
+ 'Surrogate endpoint':['A measurement used as a stand-in for what people really care about.','A quiz score used instead of the final exam.'],
+ 'Insulin independence':['Not needing to inject insulin for a stated time.','Riding a bike without training wheels for a week; it does not promise you will never wobble.'],
+};
+export const glossary:GlossaryEntry[]=base.map(e=>{
+ const [simple,example]=easy[e.term]??['',''];
+ if(!simple)throw new Error(`Glossary term "${e.term}" needs a plain-language meaning and example`);
+ return {...e,simple,example};
+}).sort((a,b)=>a.term.localeCompare(b.term));

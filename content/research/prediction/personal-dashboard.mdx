@@ -1,0 +1,34 @@
+---
+title: "A personal risk dashboard: an educational concept"
+description: "Explore risk-related variables without generating a diagnostic score, medical recommendation, or unsupported individual probability."
+category: "prediction"
+subcategory: "personal-dashboard"
+slug: "prediction/personal-dashboard"
+datePublished: "2026-09-30"
+dateModified: "2026-09-30"
+author: "Glucose Atlas editorial project"
+tags: ["prediction","personal-dashboard"]
+difficulty: "Intermediate"
+readingTime: 1
+evidenceLevel: "Limited Evidence"
+reviewedDate: "2026-09-30"
+clinicalReview: "Not independently medically reviewed"
+featured: false
+relatedTopics: ["fundamentals/mental-model","type-1/overview","type-2/overview"]
+sources: ["ada-diagnosis","idrs","ai-validation"]
+order: 111
+---
+
+<Warning title="Educational demonstration">This page explains information quality. It is not a validated risk calculator and cannot replace laboratory testing or clinical assessment. It does not compute a risk percentage.</Warning>
+
+## Interact with the signals
+
+<RiskExplorer />
+
+## A scientifically responsible pipeline
+
+Data collection → provenance and units → missingness checks → validated model appropriate to the population → calibrated estimate with uncertainty → laboratory assessment when indicated → shared clinical decision. A safer product stores source timestamps and distinguishes measured values from inferred ones. <Citation id="ada-diagnosis" /><Citation id="idrs" />
+
+## Strong signals and weak proxies
+
+Laboratory glucose has a defined clinical role. Waist and family history add context. Resting heart rate, consumer sleep scores and unstandardized CGM features can reflect many processes and should not independently label disease. A machine-learning model needs prospective validation; more fields do not automatically create a better model. <Citation id="ai-validation" />

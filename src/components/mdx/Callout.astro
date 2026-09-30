@@ -1,5 +1,0 @@
----
-interface Props { title?:string; type?:'note'|'warning'|'analogy' }
-const {title='Research note',type='note'}=Astro.props;
----
-<aside class:list={['callout',`callout-${type}`]}><div class="callout-title">{title}</div><slot/></aside>

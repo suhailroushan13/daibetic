@@ -1,5 +1,0 @@
----
-interface Props { items: {year:string;event:string}[] }
-const {items}=Astro.props;
----
-<div class="timeline">{items.map(item=><div><strong>{item.year}</strong><p>{item.event}</p></div>)}</div>

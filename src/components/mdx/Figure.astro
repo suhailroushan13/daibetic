@@ -1,5 +1,0 @@
----
-interface Props { caption:string; source?:string }
-const {caption,source}=Astro.props;
----
-<figure><slot/><figcaption>{caption}{source && <a href={`/sources#${source}`}> · View source</a>}</figcaption></figure>

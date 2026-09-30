@@ -1,9 +1,0 @@
----
-import {render} from 'astro:content';
-import {getArticles} from '../lib/content';
-import ArticleLayout from '../layouts/ArticleLayout.astro';
-import * as components from '../components/mdx';
-export async function getStaticPaths(){return (await getArticles()).map(article=>({params:{slug:article.data.slug},props:{article}}));}
-const {article}=Astro.props;const {Content,headings}=await render(article);
----
-<ArticleLayout article={article} headings={headings}><Content components={{...components,table:components.ComparisonTable}}/></ArticleLayout>
